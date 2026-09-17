@@ -7,8 +7,10 @@ use App\Repository\UserRepository;
 
 class MainController {
     
-    public function __construct(private UserRepository $userRepo){
+    private UserRepository $userRepo;
 
+    public function __construct(){
+        $this->userRepo = new UserRepository();
     }
 
     public function main($request, $response){

@@ -6,26 +6,22 @@ use App\Database\Database;
 use App\Entity\User;
 
 class UserRepository extends AbstractRepository {
-    public function __construct(Database $database) {
-        parent::__construct($database);
+    public function __construct() {
+
+        parent::__construct(new Database());
     }
 
     public function findAll(): array
     {
         $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare("
-            SELECT id, username, email, created_at
-            FROM users
-        ");
-
+        $statement = $pdo->prepare(" SELECT id, username, email, created_at FROM users");
 
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 
-    public function findOneBy(array $criteria)
-    {
+    public function findOneBy(array $criteria): array {
         $pdo = $this->database->getConnection();
 
         $conditions = [];
@@ -51,30 +47,25 @@ class UserRepository extends AbstractRepository {
     public function insert($objet): bool {
         $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare("
-            INSERT INTO users (username, email, password)
-            VALUES (:username, :email, :password)
-        ");
+        $statement = $pdo->prepare(" INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
 
         return $statement->execute([
-            'username' => $user->getUsername(),
-            'email' => $user->getEmail(),
-            'password' => $user->getPassword()
+            'username' => $objet->getUsername(),
+            'email' => $objet->getEmail(),
+            'password' => $objet->getPassword(),
         ]);
     }
 
     public function update($objet): bool {
         $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare("
-            UPDATE users SET username = :username, email = :email, password = :password, updated_at = CURRENT_TIMESTAMP WHERE id = :id
-        ");
+        $statement = $pdo->prepare("UPDATE users SET username = :username, email = :email, password = :password, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
 
         return $statement->execute([
-            'id' => $user->getId()
-            'username' => $user->getUsername(),
-            'email' => $user->getEmail(),
-            'password' => $user->getPassword()
+            'id' => $objet->getId(),
+            'username' => $objet->getUsername(),
+            'email' => $objet->getEmail(),
+            'password' => $objet->getPassword(),
         ]);
 
     }
@@ -85,6 +76,6 @@ class UserRepository extends AbstractRepository {
 
         $statement = $pdo->prepare(" DELETE FROM users WHERE id = :id");
 
-        return $statement->execute(['id' => $user->getId()]);
+        return $statement->execute(['id' => $objet->getId()]);
     }
 }

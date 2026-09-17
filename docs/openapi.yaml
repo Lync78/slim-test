@@ -1,0 +1,75 @@
+openapi: 3.0.3
+
+info:
+  title: Slim Test API
+  description: API de gestion des utilisateurs.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/register:
+    post:
+      summary: Inscription d'un utilisateur
+      description: Crée un nouveau compte utilisateur.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  maxLength: 32
+                  description: Nom d'utilisateur.
+                  example: Guillaume
+
+                email:
+                  type: string
+                  format: email
+                  maxLength: 255
+                  description: Adresse email de l'utilisateur.
+                  example: guillaume@example.com
+
+                password:
+                  type: string
+                  maxLength: 32
+                  format: password
+                  description: Mot de passe de l'utilisateur.
+                  example: Password123!
+
+      responses:
+        '201':
+          description: Utilisateur créé avec succès.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ok
+                  status:
+                    type: integer
+                    example: 201
+
+        '400':
+          description: Les données envoyées sont invalides.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Les données ne sont pas valident
+                  status:
+                    type: integer
+                    example: 400

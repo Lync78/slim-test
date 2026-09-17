@@ -30,7 +30,11 @@ class User {
     }
 
     public function setPassword($password): void {
-        $this-password = password_hash($password, PASSWORD_ARGON2ID);
+        $this->password = password_hash($password, PASSWORD_ARGON2ID);
+    }
+
+    public function getPassword(): string {
+        return $this->password;
     }
 
 }

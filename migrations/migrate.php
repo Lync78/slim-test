@@ -16,14 +16,10 @@ $pdo = $database->getConnection();
 
 try {
     // Création de la base de données
-    $pdo->exec("
-        CREATE DATABASE IF NOT EXISTS slim-test
-    ");
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS slim_test;");
 
     // Sélection de la base
-    $pdo->exec("
-        USE slim-test
-    ");
+    $pdo->exec("USE slim_test;");
 
     // Création de la table users
     $pdo->exec("
@@ -32,10 +28,8 @@ try {
             username VARCHAR(32) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL
-        )
+        );
     ");
-
-    echo "Migration exécutée avec succès.\n";
 
 } catch (PDOException $e) {
     echo "Erreur lors de la migration : " . $e->getMessage() . "\n";

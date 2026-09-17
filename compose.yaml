@@ -1,0 +1,54 @@
+
+services:
+  database:
+    image: mysql:8.4
+    ports:
+      - "3307:3306"
+    networks:
+      - slim-network
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u${MYSQL_USER} -p${MYSQL_PASSWORD}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+    volumes:
+      - database_data:/var/lib/mysql
+  slim:
+    image: php:8.4-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - slim-network
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/var/www/html/slim
+    restart: always
+    entrypoint: ["sh","command.sh"]
+  adminer:
+    image: adminer:latest
+    restart: always
+    networks:
+      - slim-network
+    ports:
+      - 8080:8080
+    depends_on:
+      database:
+        condition: service_healthy
+
+networks:
+  slim-network:
+volumes:
+  database_data:
