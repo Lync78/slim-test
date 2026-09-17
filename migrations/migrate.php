@@ -17,12 +17,12 @@ $pdo = $database->getConnection();
 try {
     // Création de la base de données
     $pdo->exec("
-        CREATE DATABASE IF NOT EXISTS myapp
+        CREATE DATABASE IF NOT EXISTS slim-test
     ");
 
     // Sélection de la base
     $pdo->exec("
-        USE myapp
+        USE slim-test
     ");
 
     // Création de la table users
