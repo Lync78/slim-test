@@ -1,5 +1,0 @@
-.*.cache
-/vendor/
-.idea/
-.vscode/
-composer.phar
