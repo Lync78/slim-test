@@ -9,6 +9,23 @@ servers:
   - url: http://localhost:8080
 
 paths:
+  /api/test:
+    get:
+      summary: Api de test
+      description: api de test.
+      requestBody:
+        required: false
+      responses:
+        '200':
+          description: test.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: hello world
   /api/register:
     post:
       summary: Inscription d'un utilisateur
