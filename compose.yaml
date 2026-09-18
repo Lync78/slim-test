@@ -34,9 +34,9 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/var/www/html/slim
+      - .:/var/www/html/slim-test
     restart: always
-    entrypoint: ["sh","command.sh"]
+    entrypoint: ["sh","/var/www/html/slim-test/command.sh"]
   adminer:
     image: adminer:latest
     restart: always

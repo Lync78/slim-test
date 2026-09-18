@@ -9,7 +9,8 @@ class Database {
 
     public function __construct() { 
         $databaseUrl = $_ENV['DATABASE_URL']; 
-        $database = parse_url($databaseUrl); 
+        $database = parse_url($databaseUrl);
+
         $host = $database['host']; 
         $port = $database['port'] ?? 3306; 
         $username = $database['user']; 

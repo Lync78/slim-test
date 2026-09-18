@@ -1,6 +1,6 @@
 FROM php:8.4-apache
 
-WORKDIR /var/www/html/slim
+WORKDIR /var/www/html/slim-test
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && apt-get install -y git unzip && rm -rf /var/lib/apt/lists/*
