@@ -31,8 +31,7 @@ $app->get('/docs', function ($request, $response) {
 
     $response->getBody()->write($html);
 
-    return $response
-        ->withHeader('Content-Type', 'text/html');
+    return $response->withHeader('Content-Type', 'text/html');
 });
 
 $app->get('/docs/openapi.yaml', function ($request, $response) {
@@ -40,8 +39,9 @@ $app->get('/docs/openapi.yaml', function ($request, $response) {
 
     $response->getBody()->write($yaml);
 
-    return $response
-        ->withHeader('Content-Type', 'application/yaml');
+    return $response->withHeader('Content-Type', 'application/yaml');
 });
+
+$app->get('/api/login',[MainController::class, 'login']);
 
 $app->run();

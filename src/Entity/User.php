@@ -1,14 +1,19 @@
 <?php 
 
 namespace App\Entity;
+use App\Enum\Role;
 
 class User {
+
+
     private ?int $id;
     private ?string $username;
     private ?string $email;
     private ?string $password;
     private bool $error = false;
+    private string $role = "";
 
+    
     public function getId(): int {
         return $this->id;
     }
@@ -35,6 +40,14 @@ class User {
 
     public function getPassword(): string {
         return $this->password;
+    }
+
+    public function setRole(Role $role): void {
+        $this->role = $role->value;
+    }
+
+    public function getRole(): string {
+        return $this->role;
     }
 
 }

@@ -28,15 +28,9 @@ class DatabaseMiddleware implements MiddlewareInterface
         } catch (\PDOException $e) {
             $response = new Response();
 
-            $response->getBody()->write(
-                json_encode([
-                    'error' => 'Database connection failed'
-                ])
-            );
+            $response->getBody()->write(json_encode(['error' => 'Database connection failed']));
 
-            return $response
-                ->withStatus(500)
-                ->withHeader('Content-Type', 'application/json');
+            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
         }
     }
 }

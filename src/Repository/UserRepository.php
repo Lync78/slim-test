@@ -13,16 +13,14 @@ class UserRepository extends AbstractRepository {
 
     public function findAll(): array
     {
-        $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare(" SELECT id, username, email, created_at FROM users");
+        $statement = $this->pdo->prepare(" SELECT id, username, email, user_role, created_at FROM users");
 
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 
     public function findOneBy(array $criteria): array {
-        $pdo = $this->database->getConnection();
 
         $conditions = [];
         $parameters = [];
@@ -32,9 +30,7 @@ class UserRepository extends AbstractRepository {
             $parameters[$field] = $value;
         }
 
-        $sql = " SELECT id, username, email, password, created_at, updated_at FROM users WHERE " . implode(' AND ', $conditions) . "LIMIT 1";
-
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare(" SELECT id, username, email, user_role, password, created_at, updated_at FROM users WHERE " . implode(' AND ', $conditions) . "LIMIT 1");
         $statement->execute($parameters);
 
         $statement->setFetchMode(PDO::FETCH_CLASS, User::class);
@@ -45,37 +41,50 @@ class UserRepository extends AbstractRepository {
     }
 
     public function insert($objet): bool {
-        $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare(" INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+        $statement = $this->pdo->prepare(" INSERT INTO users (username, email, user_role ,password) VALUES (:username, :email, :role , :password)");
 
         return $statement->execute([
             'username' => $objet->getUsername(),
             'email' => $objet->getEmail(),
             'password' => $objet->getPassword(),
+            'role' => $objet->getRole(),
         ]);
     }
 
     public function update($objet): bool {
-        $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare("UPDATE users SET username = :username, email = :email, password = :password, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
+        $statement = $this->pdo->prepare("UPDATE users SET username = :username, email = :email, user_role = :role ,password = :password, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
 
         return $statement->execute([
             'id' => $objet->getId(),
             'username' => $objet->getUsername(),
             'email' => $objet->getEmail(),
             'password' => $objet->getPassword(),
+            'role' => $objet->getRole(),
         ]);
 
     }
 
-
     public function delete($objet): bool {
-        $pdo = $this->database->getConnection();
 
-        $statement = $pdo->prepare(" DELETE FROM users WHERE id = :id");
+        $statement = $this->pdo->prepare(" DELETE FROM users WHERE id = :id");
 
         return $statement->execute(['id' => $objet->getId()]);
     }
+
+    public function getUser(string $email): ?User {
+
+        $statement = $this->pdo->prepare("SELECT * FROM users where email like :email");
+
+        $statement->execute(["email" => $email,]);
+
+        $statement->setFetchMode(PDO::FETCH_CLASS, User::class);
+
+        $user = $statement->fetch();
+
+        return $user ?: null;
+    }
+
+    
 }

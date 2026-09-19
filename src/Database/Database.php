@@ -3,6 +3,7 @@
 namespace App\Database; 
 use PDO; 
 use PDOException; 
+
 class Database { 
     
     private PDO $connection;

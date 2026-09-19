@@ -1,8 +1,11 @@
 ###
 
-Petit projet juste pour une monté en compétence :
+Petit projet juste pour une monté en compétence sur le mini framework slim:
 
-- création de deux routes sur une sur GET et l'autre en POST
+Création de deux routes API une sur GET et l'autre en POST
+
+J'ai utilisé Mysql et ubuntu pour réaliser ce projet et php 8.
+J'ai créé un middleware sur la création de la base de donnée et de la table avant la déclaration des routes.
 
 ## Docker
 
@@ -11,3 +14,5 @@ Petit projet juste pour une monté en compétence :
 ## Documentation API
 
 - Pour consulter la docs des API http://localhost:8000/docs
+
+

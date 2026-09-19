@@ -6,7 +6,11 @@ use App\Database\Database;
 
 abstract class AbstractRepository {
 
-    public function __construct(protected Database $database){  }
+    protected $pdo = null;
+
+    public function __construct(Database $database){ 
+        $this->pdo = $database->getConnection();
+     }
 
     abstract public function findAll(): array;
 
