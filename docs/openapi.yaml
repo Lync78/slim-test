@@ -30,7 +30,6 @@ paths:
     post:
       summary: Inscription d'un utilisateur
       description: Crée un nouveau compte utilisateur.
-
       requestBody:
         required: true
         content:
@@ -73,9 +72,6 @@ paths:
                   message:
                     type: string
                     example: ok
-                  status:
-                    type: integer
-                    example: 201
 
         '400':
           description: Les données envoyées sont invalides.
@@ -87,6 +83,78 @@ paths:
                   message:
                     type: string
                     example: Les données ne sont pas valident
-                  status:
-                    type: integer
-                    example: 400
+  /api/login:
+    post:
+      summary: Connexion utilisateur
+      description: Permet à un utilisateur de se connecter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 255
+                  description: Adresse email de l'utilisateur.
+                  example: guillaume@example.com
+
+                password:
+                  type: string
+                  maxLength: 32
+                  format: password
+                  description: Mot de passe de l'utilisateur.
+                  example: Password123!
+      responses:
+        '201':
+          description: Utilisateur connecté avec succès.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: connexion réussi
+
+        '400':
+          description: Connexion impossible.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Le mot de passe ou l'email est incorrect
+  /api/logout:
+    post:
+      summary: Déconnexion d'un utilisateur
+      description: Permet à un utilisateur de se déconnecter.
+      responses:
+        '200':
+          description: L'utilisateur est connecté.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Déconnexion réussi
+
+        '400':
+          description: L'utilisateur n'est pas connecté.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: vous n'êtes pas connecté. 

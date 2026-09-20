@@ -22,10 +22,11 @@ class DatabaseMiddleware implements MiddlewareInterface
     ): ResponseInterface {
         try {
             $this->database->getConnection();
-
+            
             return $handler->handle($request);
 
         } catch (\PDOException $e) {
+
             $response = new Response();
 
             $response->getBody()->write(json_encode(['error' => 'Database connection failed']));

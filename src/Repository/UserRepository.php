@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Database\Database;
 use App\Entity\User;
+use PDO;
 
 class UserRepository extends AbstractRepository {
     public function __construct() {

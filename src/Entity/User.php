@@ -11,7 +11,7 @@ class User {
     private ?string $email;
     private ?string $password;
     private bool $error = false;
-    private string $role = "";
+    private string $user_role = "";
 
     
     public function getId(): int {
@@ -43,11 +43,11 @@ class User {
     }
 
     public function setRole(Role $role): void {
-        $this->role = $role->value;
+        $this->user_role = $role->value;
     }
 
     public function getRole(): string {
-        return $this->role;
+        return $this->user_role;
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Service;
 
 class Jwt 
 { 
@@ -7,7 +8,7 @@ class Jwt
     private string $secret;
 
     public function __construct(  ) {
-        $this->secret = $_ENV["JWT"];
+        $this->secret = $_ENV["JWT_TOKEN"];
     }
 
     public function create(array $payload): string { 

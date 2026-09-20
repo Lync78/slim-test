@@ -26,6 +26,10 @@ $app->get('/api/test', [MainController::class,'main']);
 
 $app->post("/api/register", [MainController::class, 'register']);
 
+$app->post('/api/login',[MainController::class, 'login']);
+
+$app->post('/api/logout',[MainController::class, 'logout']);
+
 $app->get('/docs', function ($request, $response) {
     $html = file_get_contents(__DIR__ . '/../docs/index.html');
 
@@ -42,6 +46,6 @@ $app->get('/docs/openapi.yaml', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/yaml');
 });
 
-$app->get('/api/login',[MainController::class, 'login']);
+
 
 $app->run();

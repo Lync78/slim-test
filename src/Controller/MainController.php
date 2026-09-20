@@ -32,7 +32,7 @@ class MainController {
 
         //création d'un utilisateur
         $user = new User();
-        
+        $user->setRole(Role::MEMBER);
         //assignation des données
         $username = $data["username"];
         $email = $data["email"];
@@ -71,6 +71,8 @@ class MainController {
             return $response->WithStatus(400)->WithHeader('Content-Type','application/json');
         }
 
+        
+
         //si tout es ok
         $response->getBody()->write(json_encode(["message" => "ok", "status" => 201]));
         return $response->WithStatus(201)->WithHeader('Content-Type','application/json');
@@ -102,27 +104,47 @@ class MainController {
         }
 
         $jwt = new Jwt();
-        
-        setcookie('token',$token->create(
-            [
+
+        $this->createCookie([
+            "jwt" => $jwt->create([
                 "id"=>$user->getId(),
                 "email" => $user->getEmail(),
                 "role" => $user->getRole(),
             ]),
-            [
-                "expires" => time() + 3600,
-                "path" => "/",
-                "secure" => true,
-                "httponly" => $_ENV["ENVIRONNEMENT"],
-                'samesite' => 'Lax',
-            ]);
-        
-        $response->getBody()->write(json_encode(["message" => "connexion réussi"]));
-        return $response->WithStatus(200)->WithHeader('Content-Type',"application/json");
+        ]);
 
+        $response->getBody()->write(json_encode(["message" => "connexion réussi"]));
+        return $response->WithStatus(201)->WithHeader('Content-Type',"application/json");
+
+    }
+
+    public function logout($request, $response){
+        $token = $_COOKIE["token"] ?? null;
+
+        if(is_null($token)){
+            $response->getBody()->write(json_encode(["message" => "vous n'êtes pas connecté."]));
+            return $response->WithStatus(400)->WithHeader('Content-Type','appliatio,/json');
+        }
+
+        $this->createCookie([]);
+
+        $response->getBody()->write(json_encode(["message" => "Déconnexion réussi"]));
+        return $response->WithStatus(200)->WithHeader('Content-Type','appliatio,/json');
     }
 
     private function checkEmail(string $email): string {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    private function createCookie(array $criteria): void {
+        setcookie('token',$criteria["jwt"] ?? '',
+            [
+                "expires" => time() + ($criteria["time"] ?? 3600),
+                "path" => $criteria["path"] ?? "/",
+                "secure" => $criteria["environnement"] ?? false,
+                "httponly" => $criteria["httponly"] ?? true,
+                'samesite' => $criteria["samesite"] ?? 'Lax',
+            ])
+        ;
     }
 }
