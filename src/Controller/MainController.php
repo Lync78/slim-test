@@ -123,13 +123,13 @@ class MainController {
 
         if(is_null($token)){
             $response->getBody()->write(json_encode(["message" => "vous n'êtes pas connecté."]));
-            return $response->WithStatus(400)->WithHeader('Content-Type','appliatio,/json');
+            return $response->WithStatus(400)->WithHeader('Content-Type','application/json');
         }
 
         $this->createCookie([]);
 
         $response->getBody()->write(json_encode(["message" => "Déconnexion réussi"]));
-        return $response->WithStatus(200)->WithHeader('Content-Type','appliatio,/json');
+        return $response->WithStatus(200)->WithHeader('Content-Type','application/json');
     }
 
     private function checkEmail(string $email): string {

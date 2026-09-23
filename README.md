@@ -15,7 +15,7 @@ J'ai créé 4 routes :
 - [POST] /api/logout
 
 
-On peut mettre un middleware qui vérifie si le token est valide et que l'utilisateur dispose les droits necessaire frâce au payload.
+On peut mettre un middleware qui vérifie si le token est valide et que l'utilisateur dispose les droits necessaire grâce au payload.
 
 On peut rajouter quelques routes :
 
