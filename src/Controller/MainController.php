@@ -72,9 +72,8 @@ class MainController {
         }
 
         
-
         //si tout es ok
-        $response->getBody()->write(json_encode(["message" => "ok", "status" => 201]));
+        $response->getBody()->write(json_encode(["message" => "ok"]));
         return $response->WithStatus(201)->WithHeader('Content-Type','application/json');
 
     }
